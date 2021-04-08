@@ -1,0 +1,3 @@
+#!/bin/bash 
+EXCLUDE="path:.zshrc:cache:.zcompdump-jozbox*"
+#INCLUDE=""

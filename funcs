@@ -1,0 +1,126 @@
+#!/bin/zsh
+
+is-git-base() {
+	test -n "$1" && testpath="$@" || testpath="."
+	test -e $(realpath "$testpath")/.git
+}
+
+go-to-git-base() {
+	while ! is-git-base && [ `pwd` != "/" ]; do
+		cd ..
+	done
+	is-git-base #exit with error if not in git base
+}
+	
+git-staged() {
+	#list staged files, error if empty
+	git diff --cached --name-only | grep .
+}
+
+commit() {
+	CURDIR="`pwd`"
+	go-to-git-base && {
+		git-staged > /dev/null || git add .
+		git commit -m "`echo "$@"`" #no idea why this strangeness is required
+	}
+	cd "$CURDIR"
+}
+
+last-commit-time() {
+	git show --pretty=format:"%at" HEAD | head -n 1
+}
+
+fake-commit() {
+	CURDIR="`pwd`"
+	go-to-git-base && {
+		git-staged > /dev/null || git add .
+		git commit --date=$(($(last-commit-time)+252000+($RANDOM%14400))) -m "`echo "$@"`"
+	}
+	cd "$CURDIR"
+}
+
+gitignore() {
+	CURDIR="`pwd`"
+	go-to-git-base && {
+		for item in "$@"; do
+			echo "$item" >> .gitignore
+		done
+	}
+	cd "$CURDIR"
+}
+
+t() {
+	$TERM "$@" >/dev/null 2>/dev/null &
+	disown
+}
+
+ldir() {
+	test -n "$1" &&
+		DIR="$1" ||
+		DIR="."
+	find $DIR -maxdepth 1 ! -path $DIR -type d
+}
+
+nalias() {
+	echo -n "Go$1" |
+	$EDITOR -s /dev/stdin $ZSH/alias
+}
+
+nfunc() {
+	{ test -n "$1" &&
+		echo -n "Go\n$1() {\n}O" ||
+		echo "Go"
+	} |
+	$EDITOR -s /dev/stdin $ZSH/funcs
+}
+
+diskid() {
+	test -n "$1" && {
+		sudo blkid |
+		grep -P "$1" |
+		sed -r "s/^.*UUID=\"([^\"]*).*$/\1/;q"
+	} ||
+		sudo blkid |
+		sed -r "s/UUID=\"([^\"]*).*$/\1/"
+}
+
+npath() {
+	touch /etc/profile && {
+		echo -n "G?^appendpath\noappendpath '$1'OD" |
+		$EDITOR -s /dev/stdin /etc/profile
+	} || {
+		echo -n "Go$1" |
+		$EDITOR -s /dev/stdin $ZSH/path
+	}
+}
+
+clip() { xclip -sel clipboard "$@"}
+
+rcon() {
+	ssh kico '\
+		docker exec -i $(docker ps | sed -nE "2s/(^[0-9a-f]*).*$/\1/p") rcon-cli '"$@"'\
+	'
+}
+
+ew() {
+	$EDITOR "$(which $1)"
+}
+
+ez() {
+	$EDITOR "$ZSH/$1"
+}
+
+forbranch() {
+	for branch in $(git for-each-ref --format='%(refname)' refs/heads/ | cut -d'/' -f3); do
+		git checkout "$branch"
+		eval "$@"
+	done
+}
+
+owns() {
+	pacman -Qo $(which $1)
+}
+
+collapse-link() {
+		cp --remove-destination -T "$(readlink $1)" $1
+}

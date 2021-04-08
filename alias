@@ -1,0 +1,33 @@
+h	history
+o	xdg-open
+hoover	make clean && git reset --hard origin/master && rm -f config.h
+emoji	dmenu < ~/bin/.emoji | cut -f 1 | xclip -selection clipboard
+icons	dmenu < ~/bin/.icons | cut -f 1 | xclip -selection clipboard
+grep	grep --color=auto
+diff	diff --color=auto
+e	$EDITOR
+gco	git checkout
+gcm	git checkout master
+gcb	git checkout -b
+gst	git status
+gdf	git diff
+gdm	git diff master
+gps	git push || git push --set-upstream origin $(git branch --show-current)
+gup	git fetch --all && git pull --all
+copy	xclip -selection clipboard <
+paste	xclip -selection clipboard -o >
+sudo	sudo 
+btreset	usb_modeswitch -R -v 8087 -p 0a2b
+pdfcat	gs -sDEVICE=pdfwrite -dNOPAUSE -dBATCH -dSAFER -sOutputFile=combined.pdf
+pdfsep	gs -sDEVICE=pdfwrite -dSAFER -o separated.%d.pdf
+myip	curl -s checkip.dyndns.com | grep --color=never -oP "([0-9]{1,3}\.){3}[0-9]{1,3}"
+re	exec zsh
+df	df -h
+p	sudo pacman
+kico	ssh kico
+pecho	pacat -r --latency-msec=15 | pacat -p
+addmeto	sudo gpasswd --add jcomcl
+moo	fortune | cowsay -f $(cowsay -l | sed '1d; s/ /\n/g' | shuf -n 1)
+ipa	ip a
+nix-search	nix search
+
