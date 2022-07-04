@@ -12,13 +12,14 @@ gcb	git checkout -b
 gst	git status
 gdf	git diff
 gdm	git diff master
+gdh	git diff HEAD^
 gps	git push || git push --set-upstream origin $(git branch --show-current)
+grh	git reset HEAD^
 gup	git fetch --all && git pull --all
 copy	xclip -selection clipboard <
 paste	xclip -selection clipboard -o >
 sudo	sudo 
 btreset	usb_modeswitch -R -v 8087 -p 0a2b
-pdfcat	gs -sDEVICE=pdfwrite -dNOPAUSE -dBATCH -dSAFER -sOutputFile=combined.pdf
 pdfsep	gs -sDEVICE=pdfwrite -dSAFER -o separated.%d.pdf
 myip	curl -s checkip.dyndns.com | grep --color=never -oP "([0-9]{1,3}\.){3}[0-9]{1,3}"
 re	exec zsh
@@ -30,4 +31,3 @@ addmeto	sudo gpasswd --add jcomcl
 moo	fortune | cowsay -f $(cowsay -l | sed '1d; s/ /\n/g' | shuf -n 1)
 ipa	ip a
 nix-search	nix search
-
