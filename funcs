@@ -65,3 +65,14 @@ owns() {
 collapse-link() {
 		cp --remove-destination -T "$(readlink $1)" $1
 }
+
+get(){
+	for pkg in $@; do
+		echo "nixos.$pkg"
+	done | xargs nix-env -iA
+}
+
+
+mkcd() {
+	mkdir -p $1 && cd $1
+}
