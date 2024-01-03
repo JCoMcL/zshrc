@@ -45,11 +45,15 @@ export LESS_TERMCAP_ue=$'\E[0m'		# reset underline
 
 test -e $ZSH/funcs && source $ZSH/funcs
 
+if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
+  exec tmux
+fi
+
 HYPHEN_INSENSITIVE="true"
-KEYBOARD_HACK="]"
+#KEYBOARD_HACK="]"
 
 # Uncomment the following line to automatically update without prompting.
-# DISABLE_UPDATE_PROMPT="true"
+DISABLE_UPDATE_PROMPT="true"
 
 # Uncomment the following line if pasting URLs and other text is messed up.
 # DISABLE_MAGIC_FUNCTIONS=true

@@ -1,8 +1,7 @@
 #!/bin/zsh
 
-t() {
-	$TERM "$@" >/dev/null 2>/dev/null &
-	disown
+E() {
+    newterm $EDITOR $@
 }
 
 ldir() {
@@ -13,25 +12,22 @@ ldir() {
 }
 
 nalias() {
-	echo -n "Go$1" |
-	$EDITOR -s /dev/stdin $ZSH/alias
+	ekeys "gjo$1" $ZSH/alias
 }
 
 nfunc() {
-	{ test -n "$1" &&
-		echo -n "Go\n$1() {\n}O" ||
-		echo "Go"
-	} |
-	$EDITOR -s /dev/stdin $ZSH/funcs
+	test -n "$1" &&
+	ekeys "gjo$1()\\ {\\	}ka" $ZSH/funcs ||
+	ekeys "gj" $ZSH/funcs
 }
 
 npath() {
 	touch /etc/profile && {
-		echo -n "G?^appendpath\noappendpath '$1'OD" |
-		$EDITOR -s /dev/stdin /etc/profile
+		echo -n "gj?^appendpath\noappendpath '$1'OD" |
+		$EDITOR /etc/profile
 	} || {
-		echo -n "Go$1" |
-		$EDITOR -s /dev/stdin $ZSH/path
+		echo -n "gjo$1" |
+		ez path
 	}
 }
 
@@ -49,6 +45,10 @@ ew() {
 
 ez() {
 	$EDITOR "$ZSH/$1"
+}
+
+rmw() {
+    rm "`which $1`"
 }
 
 forbranch() {
@@ -72,7 +72,15 @@ get(){
 	done | xargs nix-env -iA
 }
 
-
 mkcd() {
 	mkdir -p $1 && cd $1
+}
+ekeys() {
+	keys=$1; shift
+	case $EDITOR in
+		nvim)
+			echo $keys | $EDITOR -s /dev/stdin $@;;
+		kak)
+			$EDITOR -e "execute-keys $keys" $@
+    	esac
 }

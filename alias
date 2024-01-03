@@ -1,4 +1,5 @@
-h	history
+t	newterm
+h	history | grep 
 o	xdg-open
 hoover	make clean && git reset --hard origin/master && rm -f config.h
 emoji	dmenu < ~/bin/.emoji | cut -f 1 | xclip -selection clipboard
@@ -9,12 +10,15 @@ e	$EDITOR
 gco	git checkout
 gcm	git checkout master
 gcb	git checkout -b
+gch	git checkout HEAD^
 gst	git status
+gsh	git show HEAD
 gdf	git diff
 gdm	git diff master
 gdh	git diff HEAD^
 gps	git push || git push --set-upstream origin $(git branch --show-current)
 grh	git reset HEAD^
+grm	git rebase master
 gup	git fetch --all && git pull --all
 copy	xclip -selection clipboard <
 paste	xclip -selection clipboard -o >
@@ -31,3 +35,5 @@ addmeto	sudo gpasswd --add jcomcl
 moo	fortune | cowsay -f $(cowsay -l | sed '1d; s/ /\n/g' | shuf -n 1)
 ipa	ip a
 nix-search	nix search
+roll	dice
+slug	awk '{print $0; system("sleep .1");}'
