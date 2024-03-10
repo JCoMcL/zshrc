@@ -1,4 +1,4 @@
 .zcompdump-*
 .editorconfig
-.zshrc
 cache
+.zcompdump

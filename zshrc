@@ -45,8 +45,8 @@ export LESS_TERMCAP_ue=$'\E[0m'		# reset underline
 
 test -e $ZSH/funcs && source $ZSH/funcs
 
-if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
-  exec tmux
+if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [[ -z "$TMUX" ]]; then
+  tmux
 fi
 
 HYPHEN_INSENSITIVE="true"
