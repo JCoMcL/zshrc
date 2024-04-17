@@ -18,6 +18,7 @@ gdm	git diff master
 gdh	git diff HEAD^
 gps	git push || git push --set-upstream origin $(git branch --show-current)
 grh	git reset HEAD^
+grH	git reset --hard
 grm	git rebase master
 gup	git fetch --all && git pull --all
 copy	xclip -selection clipboard <
