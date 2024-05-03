@@ -27,7 +27,7 @@ sudo	sudo
 btreset	usb_modeswitch -R -v 8087 -p 0a2b
 pdfsep	gs -sDEVICE=pdfwrite -dSAFER -o separated.%d.pdf
 myip	curl -s checkip.dyndns.com | grep --color=never -oP "([0-9]{1,3}\.){3}[0-9]{1,3}"
-re	exec zsh
+re	rm ~/.zcompdump* && exec zsh
 df	df -h
 p	sudo pacman
 kico	ssh kico
