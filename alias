@@ -38,3 +38,4 @@ ipa	ip a
 nix-search	nix search
 roll	dice
 slug	awk '{print $0; system("sleep .1");}'
+get	sudo emerge -av --autounmask
