@@ -81,3 +81,6 @@ ekeys() {
 command_not_found_handler() {
 	command-not-found $@
 }
+ccr() {
+	temp=`mktemp` && cc -o $temp $1 && $temp && rm $temp
+}
