@@ -48,7 +48,7 @@ ez() {
 }
 
 rmw() {
-    rm "`which $1`"
+	rm "`which $1`"
 }
 
 forbranch() {
@@ -76,11 +76,9 @@ ekeys() {
 			echo $keys | $EDITOR -s /dev/stdin $@;;
 		kak)
 			$EDITOR -e "execute-keys $keys" $@
-    	esac
+	esac
 }
-command_not_found_handler() {
-	command-not-found $@
-}
-ccr() {
-	temp=`mktemp` && cc -o $temp $1 && $temp && rm $temp
+
+editvar() {
+	export "$1"="$(echo "${(P)1}"| vipe)"
 }
