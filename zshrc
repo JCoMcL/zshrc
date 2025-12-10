@@ -29,10 +29,12 @@ test -e $ZSH/path && eval $(
 	sed -nr 's/(^[^#].*)/prependpath "\1";/p' "$ZSH/path"
 )
 
-test -e $ZSH/alias && eval $(
-	sed -e "s/'/'\"'\"'/g" -e '/^$/d' -e '/^#/d' "$ZSH/alias" |
-	awk -F '\t' '{print "alias "$1"=""\047"$2"\047"}'
-)
+IFS="	"
+while read k v
+	do alias $k="$v"
+done < $ZDOTDIR/alias
+IFS=":"
+
 # less formatting variables: don't know why they seem to need to be set here
 export LESS=-R
 export LESS_TERMCAP_mb=$'\E[1;31m'	 # begin blink
@@ -45,8 +47,12 @@ export LESS_TERMCAP_ue=$'\E[0m'		# reset underline
 
 test -e $ZSH/funcs && source $ZSH/funcs
 
-if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [[ -z "$TMUX" ]]; then
-  tmux
+. git-utils
+
+if command -v direnv >/dev/null 2>&1; then
+	eval "$(direnv hook zsh)"
+else
+	echo 'warn: direnv not installed'
 fi
 
 HYPHEN_INSENSITIVE="true"
