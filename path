@@ -1,5 +1,5 @@
 $HOME/.local/bin
-$HOME/go/bin
+$GOPATH/bin
 $HOME/bin
 $HOME/run
 

@@ -45,3 +45,5 @@ get	elogind-inhibit sudo emerge -av --autounmask
 gradlew	sh gradlew
 git-keep-both	sed -Ei '/[>=<]{7}/d'
 x	dbus-launch startx
+fetch	fastfetch
+cnf	command-not-found

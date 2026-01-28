@@ -2,11 +2,9 @@ test $UID -eq 0 &&
 	CONFDIR="$XDG_CONFIG_DIRS" ||
 	CONFDIR="$XDG_CONFIG_HOME" 
 
-export ZSH="$CONFDIR/zsh"
-
 ZSH_THEME="comical"
 
-test -e $ZSH/oh-my-zsh.sh && source $ZSH/oh-my-zsh.sh
+test -e $ZDOTDIR/oh-my-zsh.sh && source $ZDOTDIR/oh-my-zsh.sh
 
 export HISTSIZE=2305843009213693951 #LONG_MAX / 4
 export SAVEHIST=$HISTSIZE
@@ -21,12 +19,12 @@ prependpath () {
 	esac
 }
 
-test -e $ZSH/opts && setopt $(
-	 sed -En '/^[^#].*/{s/#.*//;p}' $ZSH/opts "$ZSH/opts" | tr '\n' ' '
+test -e $ZDOTDIR/opts && setopt $(
+	 sed -En '/^[^#].*/{s/#.*//;p}' $ZDOTDIR/opts "$ZDOTDIR/opts" | tr '\n' ' '
 )
 
-test -e $ZSH/path && eval $(
-	sed -nr 's/(^[^#].*)/prependpath "\1";/p' "$ZSH/path"
+test -e $ZDOTDIR/path && eval $(
+	sed -nr 's/(^[^#].*)/prependpath "\1";/p' "$ZDOTDIR/path"
 )
 
 IFS="	"
@@ -45,7 +43,7 @@ export LESS_TERMCAP_se=$'\E[0m'		# reset reverse video
 export LESS_TERMCAP_us=$'\E[1;32m'	 # begin underline
 export LESS_TERMCAP_ue=$'\E[0m'		# reset underline
 
-test -e $ZSH/funcs && source $ZSH/funcs
+test -e $ZDOTDIR/funcs && source $ZDOTDIR/funcs
 
 . git-utils
 
