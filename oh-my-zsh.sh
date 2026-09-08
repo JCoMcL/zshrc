@@ -1,7 +1,7 @@
 # Set ZSH_CACHE_DIR to the path where cache files should be created
 # or else we will use the default cache/
 if [[ -z "$ZSH_CACHE_DIR" ]]; then
-  ZSH_CACHE_DIR="$ZSH/cache"
+  ZSH_CACHE_DIR="$ZDOTDIR/cache"
 fi
 
 # Migrate .zsh-update file to $ZSH_CACHE_DIR
@@ -10,7 +10,7 @@ if [ -f ~/.zsh-update ] && [ ! -f ${ZSH_CACHE_DIR}/.zsh-update ]; then
 fi
 
 # add a function path
-fpath=($ZSH/functions $ZSH/completions $fpath)
+fpath=($ZDOTDIR/functions $ZDOTDIR/completions $fpath)
 
 # Load all stock functions (from $fpath files) called below.
 autoload -U compaudit compinit
@@ -28,7 +28,7 @@ for plugin ($plugins); do
   if is_plugin $ZSH_CUSTOM $plugin; then
     fpath=($ZSH_CUSTOM/plugins/$plugin $fpath)
   elif is_plugin $ZSH $plugin; then
-    fpath=($ZSH/plugins/$plugin $fpath)
+    fpath=($ZDOTDIR/plugins/$plugin $fpath)
   else
     echo "[oh-my-zsh] plugin '$plugin' not found"
   fi
@@ -48,7 +48,7 @@ if [ -z "$ZSH_COMPDUMP" ]; then
 fi
 
 if [[ $ZSH_DISABLE_COMPFIX != true ]]; then
-  source $ZSH/lib/compfix.zsh
+  source $ZDOTDIR/lib/compfix.zsh
   # If completion insecurities exist, warn the user
   handle_completion_insecurities
   # Load only from secure directories
@@ -61,7 +61,7 @@ fi
 
 # Load all of the config files in ~/oh-my-zsh that end in .zsh
 # TIP: Add files you don't want in git to .gitignore
-for config_file ($ZSH/lib/*.zsh); do
+for config_file ($ZDOTDIR/lib/*.zsh); do
   custom_config_file="${ZSH_CUSTOM}/lib/${config_file:t}"
   [ -f "${custom_config_file}" ] && config_file=${custom_config_file}
   source $config_file
@@ -71,8 +71,8 @@ done
 for plugin ($plugins); do
   if [ -f $ZSH_CUSTOM/plugins/$plugin/$plugin.plugin.zsh ]; then
     source $ZSH_CUSTOM/plugins/$plugin/$plugin.plugin.zsh
-  elif [ -f $ZSH/plugins/$plugin/$plugin.plugin.zsh ]; then
-    source $ZSH/plugins/$plugin/$plugin.plugin.zsh
+  elif [ -f $ZDOTDIR/plugins/$plugin/$plugin.plugin.zsh ]; then
+    source $ZDOTDIR/plugins/$plugin/$plugin.plugin.zsh
   fi
 done
 
@@ -82,4 +82,4 @@ for config_file ($ZSH_CUSTOM/*.zsh(N)); do
 done
 unset config_file
 
-source "$ZSH/theme.zsh"
+source "$ZDOTDIR/theme.zsh"

@@ -12,13 +12,13 @@ ldir() {
 }
 
 nalias() {
-	ekeys "gjo$1" $ZSH/alias
+	ekeys "gjo$1" $ZDOTDIR/alias
 }
 
 nfunc() {
 	test -n "$1" &&
-	ekeys "gjo$1()\\ {\\	}ka" $ZSH/funcs ||
-	ekeys "gj" $ZSH/funcs
+	ekeys "gjo$1()\\ {\\	}ka" $ZDOTDIR/funcs ||
+	ekeys "gj" $ZDOTDIR/funcs
 }
 
 npath() {
@@ -44,7 +44,7 @@ ew() {
 }
 
 ez() {
-	$EDITOR "$ZSH/$1"
+	$EDITOR "$ZDOTDIR/$1"
 }
 
 rmw() {
